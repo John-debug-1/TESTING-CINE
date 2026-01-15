@@ -14,6 +14,9 @@ public class WebConfig implements WebMvcConfigurer {
     @Autowired
     private LoginInterceptor loginInterceptor;
 
+    @Autowired
+    private TermsInterceptor termsInterceptor;
+
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
 
@@ -26,9 +29,12 @@ public class WebConfig implements WebMvcConfigurer {
                         "/history",
                         "/sentiment"
                 );
+
+        registry.addInterceptor(termsInterceptor)
+                .addPathPatterns("/**");
     }
 
-    // ✅ ΕΔΩ είναι το καινούργιο κομμάτι για τα αρχεία
+    //  ΕΔΩ είναι το καινούργιο κομμάτι για τα αρχεία
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry

@@ -23,7 +23,7 @@ public class QuizRestController {
         this.userService = userService;
     }
 
-    //  QUIZ 1 — CLASSIC
+    // ✅ QUIZ 1 — CLASSIC
     @PostMapping("/start")
     public ResponseEntity<?> startQuiz(HttpSession session) {
 
@@ -38,7 +38,7 @@ public class QuizRestController {
     }
 
 
-    //  QUIZ 2 — ACTOR GUESS
+    // ✅ QUIZ 2 — ACTOR GUESS
     @PostMapping("/start-actor")
     public ResponseEntity<?> startActorQuiz(HttpSession session) {
 
@@ -52,7 +52,7 @@ public class QuizRestController {
         return ResponseEntity.ok(quiz);
     }
 
-    //  SUBMIT ANSWER
+    // ✅ SUBMIT ANSWER
     @PostMapping("/answer")
     public ResponseEntity<?> submitAnswer(@RequestBody Map<String, String> payload) {
 
@@ -64,14 +64,14 @@ public class QuizRestController {
         return ResponseEntity.ok(Map.of("correct", correct));
     }
 
-    //  FINISH QUIZ
+    // ✅ FINISH QUIZ
     @PostMapping("/finish/{quizId}")
     public ResponseEntity<Quiz> finishQuiz(@PathVariable Long quizId) {
         Quiz quiz = quizService.finishQuiz(quizId);
         return ResponseEntity.ok(quiz);
     }
 
-    //  HISTORY
+    // ✅ HISTORY
     @GetMapping("/history")
     public ResponseEntity<List<Quiz>> history(
             @SessionAttribute("loggedUser") User user) {

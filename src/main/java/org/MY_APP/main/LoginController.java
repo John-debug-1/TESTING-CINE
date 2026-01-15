@@ -35,6 +35,9 @@ public class LoginController {
         // ✅ Store user into session
         session.setAttribute("loggedUser", user);
 
+        // ✅ SHOW AGREEMENT POPUP ON NEXT PAGE LOAD
+        session.setAttribute("needsAgreement", true);
+
         return "redirect:/home";
     }
 
@@ -57,6 +60,9 @@ public class LoginController {
 
         // ✅ AUTO LOGIN — μπαίνει κατευθείαν στο session
         session.setAttribute("loggedUser", newUser);
+
+        // ✅ SHOW AGREEMENT POPUP ON NEXT PAGE LOAD
+        session.setAttribute("needsAgreement", true);
 
         return "redirect:/home"; // ✅ μπαίνει κατευθείαν μέσα
     }

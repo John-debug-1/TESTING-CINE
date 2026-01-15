@@ -16,7 +16,7 @@ public class FavoriteController {
 
     @PostMapping("/favorites/add")
     public String addFavorite(@RequestParam int movieId, @RequestParam String title, @RequestParam String posterPath, HttpSession session) {
-        User user = (User) session.getAttribute("user");
+        User user = (User) session.getAttribute("loggedUser");
         if (user != null) {
             favoriteService.addFavorite(user, movieId, title, posterPath);
         }
@@ -25,7 +25,7 @@ public class FavoriteController {
 
     @PostMapping("/favorites/remove")
     public String removeFavorite(@RequestParam int movieId, HttpSession session) {
-        User user = (User) session.getAttribute("user");
+        User user = (User) session.getAttribute("loggedUser");
         if (user != null) {
             favoriteService.removeFavorite(user, movieId);
         }

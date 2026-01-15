@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class SentimentController {
 
     @GetMapping("/sentiment")
-    public String sentiment(Model model, HttpSession session) {
+    public String sentimentPage(Model model, HttpSession session) {
         model.addAttribute("loggedUser", session.getAttribute("loggedUser"));
-        return "sentiment";
+        return "sentiment"; // -> sentiment.html
     }
 }

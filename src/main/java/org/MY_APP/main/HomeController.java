@@ -31,7 +31,7 @@ public class HomeController {
     @GetMapping({"/", "/home"})
     public String home(Model model, HttpSession session) {
 
-        //  ΠΕΡΝΑΜΕ loggedUser στο template
+        // 🔥 ΠΕΡΝΑΜΕ loggedUser στο template
         model.addAttribute("loggedUser", session.getAttribute("loggedUser"));
 
         model.addAttribute("results", null);

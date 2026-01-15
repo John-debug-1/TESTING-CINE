@@ -16,12 +16,12 @@ public class LoginInterceptor implements HandlerInterceptor {
 
         HttpSession session = request.getSession(false);
 
-        // ✅ Αν ΔΕΝ υπάρχει loggedUser → redirect στο /login
+        //  Αν ΔΕΝ υπάρχει loggedUser → redirect στο /login
         if (session == null || session.getAttribute("loggedUser") == null) {
             response.sendRedirect("/login");
             return false;
         }
 
-        return true; // ✅ συνεχίζει κανονικά
+        return true; //  συνεχίζει κανονικά
     }
 }

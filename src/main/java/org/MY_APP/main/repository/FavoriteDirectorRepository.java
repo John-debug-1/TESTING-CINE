@@ -9,12 +9,9 @@ import java.util.Optional;
 
 public interface FavoriteDirectorRepository extends JpaRepository<FavoriteDirector, Long> {
 
-    // ⛔ ΜΗΝ ΤΟ ΠΕΙΡΑΞΕΙΣ
     boolean existsByUserAndDirectorId(User user, int directorId);
 
-    // ⛔ ΜΗΝ ΤΟ ΠΕΙΡΑΞΕΙΣ
     Optional<FavoriteDirector> findByUserAndDirectorId(User user, int directorId);
 
-    // ✅ ΑΥΤΟ ΠΡΟΣΘΕΤΟΥΜΕ για το profile
     List<FavoriteDirector> findByUser(User user);
 }

@@ -15,7 +15,6 @@ public interface FavoriteRepository extends JpaRepository<Favorite, Long> {
 
     Optional<Favorite> findByUserAndMovieId(User user, int movieId);
 
-    // --- ΝΕΑ ΜΕΘΟΔΟΣ ΓΙΑ ΤΟ KPI ---
     // Μετράει πόσες εγγραφές υπάρχουν με αυτό το movieId
     int countByMovieId(int movieId);
 }

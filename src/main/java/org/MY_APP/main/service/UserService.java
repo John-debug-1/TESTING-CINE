@@ -10,8 +10,12 @@ import java.util.*;
 @Service
 public class UserService {
 
+    private final UserRepository userRepository;
+
     @Autowired
-    private UserRepository userRepository;
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     // SIGN UP
     public boolean createUser(String email, String password, String fullName) {
@@ -28,6 +32,11 @@ public class UserService {
 
     public User findByEmail(String email) {
         return userRepository.findByEmail(email);
+    }
+
+    public User findByUsername(String username) {
+        // Στα περισσότερα setups, το Principal.getName() είναι το email
+        return userRepository.findByEmail(username);
     }
 
     public boolean validateLogin(String email, String password) {

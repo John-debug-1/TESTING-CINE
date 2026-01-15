@@ -12,6 +12,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+
+import java.util.Collections;
+
+
 @Service
 public class QuizAiService {
 
@@ -23,6 +27,23 @@ public class QuizAiService {
 
     private final String GEMINI_URL =
             "https://generativelanguage.googleapis.com/v1/models/gemini-2.5-flash:generateContent?key=";
+
+    @Value("${huggingface.api.key}")
+    private String HF_API_KEY;
+
+    @Value("${huggingface.actor.model-url}")
+    private String HF_ACTOR_URL;
+
+    private static final Map<String, String> ACTOR_MAP = Map.of(
+            "angry", "Samuel L. Jackson",
+            "disgust", "Johnny Depp",
+            "fear", "Jack Nicholson",
+            "happy", "Tom Hanks",
+            "sad", "Harrison Ford",
+            "surprise", "Jim Carrey",
+            "neutral", "Ryan Gosling"
+    );
+
 
     public List<AiQuizQuestionDto> generateQuizFromAI() {
 
@@ -136,6 +157,46 @@ public class QuizAiService {
         return parseQuestionsFromResponse(response.getBody());
     }
 
+
+    public String findMatchingActor(byte[] imageBytes) {
+        try {
+            HttpHeaders headers = new HttpHeaders();
+            headers.set("Authorization", "Bearer " + HF_API_KEY);
+            headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+            headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+            headers.set("X-Wait-For-Model", "true");
+
+            HttpEntity<byte[]> entity = new HttpEntity<>(imageBytes, headers);
+
+            ResponseEntity<String> response = restTemplate.exchange(
+                    HF_ACTOR_URL,
+                    HttpMethod.POST,
+                    entity,
+                    String.class
+            );
+
+            // ✅ Debug
+            System.out.println("FULL HF RESPONSE: " + response.getBody());
+
+            JsonNode root = objectMapper.readTree(response.getBody());
+
+            if (root.isArray() && root.size() > 0) {
+                String emotion = root.get(0).path("label").asText().toLowerCase();
+                System.out.println("DETECTED EMOTION: " + emotion);
+
+                return ACTOR_MAP.getOrDefault(emotion, "Robert Downey Jr.");
+            }
+
+            return "Brad Pitt (Response Format Error)";
+
+        } catch (Exception e) {
+            System.err.println("CRITICAL API ERROR: " + e.getMessage());
+            return "Brad Pitt (Error: " + e.getMessage() + ")";
+        }
+    }
+
+
+
     private List<AiQuizQuestionDto> parseQuestionsFromResponse(String json) {
 
         try {
@@ -181,4 +242,5 @@ public class QuizAiService {
             throw new RuntimeException("AI Quiz Parsing Failed", e);
         }
     }
+
 }

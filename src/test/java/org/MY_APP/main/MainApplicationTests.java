@@ -1,3 +1,7 @@
+/**
+ * Default SpringBoot Testing
+ */
+
 package org.MY_APP.main;
 
 import org.junit.jupiter.api.Test;
@@ -9,5 +13,4 @@ class MainApplicationTests {
 	@Test
 	void contextLoads() {
 	}
-
 }
